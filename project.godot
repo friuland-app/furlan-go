@@ -24,6 +24,10 @@ window/size/viewport_height=720
 window/size/mode=2
 window/stretch/mode="canvas_items"
 
+[autoload]
+
+MapManager="*res://scripts/map_manager.gd"
+
 [input]
 
 ui_left={
