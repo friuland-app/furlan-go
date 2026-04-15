@@ -1,0 +1,42 @@
+# Godot specific files
+.import/
+export/
+*.export
+.godot/
+
+# Android build
+android/.gradle/
+android/local.properties
+android/build/
+android/.idea/
+android/.cache/
+android/app/build/
+android/app/release/
+
+# iOS build
+ios/.DS_Store
+ios/build/
+ios/Pods/
+ios/.symlinks/
+ios/Runner.xcodeproj/project.xcworkspace/
+
+# Mono
+.mono/
+temp/
+*.csproj
+*.sln
+
+# Firebase
+google-services.json
+GoogleService-Info.plist
+
+# OS
+.DS_Store
+Thumbs.db
+*~
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
