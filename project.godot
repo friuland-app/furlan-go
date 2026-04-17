@@ -13,7 +13,7 @@ config_version=5
 config/name="Furlan Go"
 config/description="Gioco AR location-based per Cividale del Friuli"
 config/version="0.1.0"
-run/main_scene="res://scenes/main_menu.tscn"
+run/main_scene="res://scenes/map_scene.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -27,6 +27,7 @@ window/stretch/mode="canvas_items"
 [autoload]
 
 MapManager="*res://scripts/map_manager.gd"
+ARManager="*res://scripts/ar_manager.gd"
 
 [input]
 
@@ -50,6 +51,19 @@ ui_down={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194322,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
+map_tap={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(0,0),"global_position":Vector2(0,0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
+]
+}
+map_pinch={
+"deadzone": 0.5,
+"events": []
+}
+gps_update={
+"deadzone": 0.5,
+"events": []
+}
 
 [layer_names]
 
@@ -64,3 +78,30 @@ ui_down={
 2d_render/layer_3="Creatures"
 2d_render/layer_4="POI"
 2d_render/layer_5="UI"
+
+[android]
+
+modules/org/godotengine/godot/GodotPaymentV3.enabled=false
+modules/org/godotengine/godot/GodotPaymentV3/whitelist.content=
+
+config/features=PackedStringArray("4.3", "Mobile")
+config/icon="res://icon.svg"
+config/name="Furlan Go"
+config/package="com.friuland.furlango"
+config/version="0.1.0"
+config/version_name="0.1.0"
+config/use_custom_build=true
+
+graphics/opengl3/buffers/hdr=false
+graphics/opengl3/buffers/lazy=false
+graphics/opengl3/force_vertex_shading=false
+graphics/opengl3/ffx_fsr2_sharpness=0.5
+graphics/opengl3/ffx_fsr2_mode=0
+graphics/opengl3/tier3/roughness_limiter=0.0
+
+input_devices/pointing/emulate_mouse_from_touch=true
+input_devices/pointing/emulate_touch_from_mouse=false
+
+network/tls/certificates=""
+
+rendering/textures/canvas_textures/default_texture_filter=0
