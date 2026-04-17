@@ -13,7 +13,7 @@ config_version=5
 config/name="Furlan Go"
 config/description="Gioco AR location-based per Cividale del Friuli"
 config/version="0.1.0"
-run/main_scene="res://scenes/map_scene.tscn"
+run/main_scene="res://scenes/map/map_scene.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -26,8 +26,8 @@ window/stretch/mode="canvas_items"
 
 [autoload]
 
-MapManager="*res://scripts/map_manager.gd"
-ARManager="*res://scripts/ar_manager.gd"
+MapManager="*res://scripts/map/map_manager.gd"
+ARManager="*res://scripts/ar/ar_manager.gd"
 
 [input]
 
