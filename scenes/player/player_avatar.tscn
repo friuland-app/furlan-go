@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqk3x8jy4m5k8"]
+
+[ext_resource type="Script" path="res://scripts/player/player_avatar_controller.gd" id="1_avatar"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 16.0
+
+[node name="PlayerAvatar" type="Node2D"]
+script = ExtResource("1_avatar")
+position = Vector2(640, 360)
+
+[node name="AvatarSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+
+[node name="DirectionIndicator" type="Node2D" parent="."]
+
+[node name="Arrow" type="Polygon2D" parent="DirectionIndicator"]
+polygon = PackedVector2Array(0, -20, -10, 10, 0, 5, 10, 10)
+color = Color(1, 1, 1, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_1")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1")
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1"]
+_data = {
+"RESET": false,
+"walk": Anim(Animation(1.0, false, false), {
+"AvatarSprite:scale": AnimTrack(0, -1, AnimKeyframeTrack(0, -1, {
+AnimKeyframe(0.0, Vector2(0.5, 0.5), false),
+AnimKeyframe(0.25, Vector2(0.55, 0.45), false),
+AnimKeyframe(0.5, Vector2(0.5, 0.5), false),
+AnimKeyframe(0.75, Vector2(0.45, 0.55), false),
+AnimKeyframe(1.0, Vector2(0.5, 0.5), false)
+}))
+})
+}
