@@ -4,3 +4,6 @@
 [submodule "addons/godot_arcore"]
 	path = addons/godot_arcore
 	url = https://github.com/GodotVR/godot_arcore.git
+[submodule "backend"]
+	path = backend
+	url = https://github.com/friuland-app/friulander-backend.git
