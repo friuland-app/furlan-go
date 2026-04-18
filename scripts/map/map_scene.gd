@@ -3,6 +3,8 @@ extends Node2D
 @onready var camera_2d = $Camera2D
 @onready var osm_tilemap = $OSMTileMap
 @onready var player_marker = $PlayerMarker
+@onready var player_avatar = $PlayerAvatar
+@onready var zone_visualizer = $ZoneVisualizer
 @onready var info_label = $UI/InfoLabel
 
 var current_latitude: float = 46.0780  # Cividale del Friuli
@@ -22,6 +24,11 @@ func _ready():
 	PlayerLocationManager.player_position_changed.connect(_on_player_position_changed)
 	PlayerLocationManager.player_position_error.connect(_on_player_position_error)
 	PlayerLocationManager.gps_status_changed.connect(_on_gps_status_changed)
+	
+	# Connetti segnali GeofenceManager
+	GeofenceManager.zone_entered.connect(_on_zone_entered)
+	GeofenceManager.zone_exited.connect(_on_zone_exited)
+	GeofenceManager.zone_event_triggered.connect(_on_zone_event_triggered)
 	
 	# Avvia tracking posizione giocatore
 	PlayerLocationManager.start_tracking()
@@ -43,6 +50,10 @@ func _on_tile_loaded(x: int, y: int, zoom: int):
 func _on_player_position_changed(latitude: float, longitude: float):
 	print("Player position changed: ", latitude, ", ", longitude)
 	update_player_position(latitude, longitude)
+	
+	# Aggiorna posizione avatar
+	if player_avatar:
+		player_avatar.update_from_gps(latitude, longitude)
 
 func _on_player_position_error(error: String):
 	print("Player position error: ", error)
@@ -51,6 +62,26 @@ func _on_player_position_error(error: String):
 func _on_gps_status_changed(status: String):
 	print("GPS status changed: ", status)
 	info_label.text = "Furlan Go - GPS: " + status
+
+func _on_zone_entered(zone_id: String, zone_name: String):
+	print("Entered zone: ", zone_name)
+	info_label.text = "Furlan Go - Zona: " + zone_name
+	
+	# Highlight zona sulla mappa
+	if zone_visualizer:
+		zone_visualizer.highlight_zone(zone_id, true)
+
+func _on_zone_exited(zone_id: String, zone_name: String):
+	print("Exited zone: ", zone_name)
+	info_label.text = "Furlan Go - Fuori zona: " + zone_name
+	
+	# Rimuovi highlight
+	if zone_visualizer:
+		zone_visualizer.highlight_zone(zone_id, false)
+
+func _on_zone_event_triggered(zone_id: String, event_type: String):
+	print("Zone event triggered: ", event_type, " in zone: ", zone_id)
+	# TODO: Implementare logica specifica per eventi
 
 func _display_tile(x: int, y: int, zoom: int):
 	var texture = MapManager.get_tile_texture(x, y, zoom)
