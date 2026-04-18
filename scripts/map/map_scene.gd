@@ -18,6 +18,14 @@ func _ready():
 	MapManager.map_loaded.connect(_on_map_loaded)
 	MapManager.tile_loaded.connect(_on_tile_loaded)
 	
+	# Connetti segnali GPS
+	GPSManager.location_updated.connect(_on_location_updated)
+	GPSManager.location_error.connect(_on_location_error)
+	GPSManager.permission_granted.connect(_on_permission_granted)
+	
+	# Richiedi permessi GPS e avvia aggiornamenti
+	GPSManager.request_location_permission()
+	
 	# Carica mappa
 	MapManager.load_map(current_latitude, current_longitude, current_zoom)
 
@@ -28,6 +36,18 @@ func _on_map_loaded():
 func _on_tile_loaded(x: int, y: int, zoom: int):
 	print("Tile loaded: ", x, ", ", y, ", zoom: ", zoom)
 	_display_tile(x, y, zoom)
+
+func _on_location_updated(latitude: float, longitude: float, accuracy: float):
+	print("Location updated: ", latitude, ", ", longitude, " accuracy: ", accuracy)
+	update_player_position(latitude, longitude)
+
+func _on_location_error(error: String):
+	print("Location error: ", error)
+	info_label.text = "Furlan Go - Errore GPS: " + error
+
+func _on_permission_granted():
+	print("GPS permission granted")
+	GPSManager.start_location_updates()
 
 func _display_tile(x: int, y: int, zoom: int):
 	var texture = MapManager.get_tile_texture(x, y, zoom)
