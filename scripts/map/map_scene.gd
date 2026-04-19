@@ -17,6 +17,7 @@ var current_zoom: int = 15
 var tile_sprites: Dictionary = {}  # Sprite2D per visualizzare tiles
 var creature_marker_instances: Dictionary = {}  # creature_id → marker node
 var poi_marker_instances: Dictionary = {}  # poi_id → marker node
+var loaded_tiles: Array = []  # Tile attualmente caricati
 
 func _ready():
 	print("Map scene initialized")
@@ -53,6 +54,10 @@ func _ready():
 	POIManager.poi_reward_claimed.connect(_on_poi_reward_claimed)
 	POIManager.poi_cooldown_complete.connect(_on_poi_cooldown_complete)
 	
+	# Connetti segnali PerformanceManager
+	PerformanceManager.tile_cache_updated.connect(_on_tile_cache_updated)
+	PerformanceManager.entity_visibility_changed.connect(_on_entity_visibility_changed)
+	
 	# Avvia tracking posizione giocatore
 	PlayerLocationManager.start_tracking()
 	
@@ -81,9 +86,11 @@ func _on_player_position_changed(latitude: float, longitude: float):
 	print("Player position changed: ", latitude, ", ", longitude)
 	update_player_position(latitude, longitude)
 	
+	# Aggiorna PerformanceManager per ottimizzazione entità
+	PerformanceManager.update_visible_entities(latitude, longitude)
+	
 	# Aggiorna posizione avatar
-	if player_avatar:
-		player_avatar.update_from_gps(latitude, longitude)
+	player_avatar.update_from_gps(latitude, longitude)
 
 func _on_player_position_error(error: String):
 	print("Player position error: ", error)
@@ -200,24 +207,76 @@ func _add_poi_marker(poi_id: String, poi_data: Dictionary):
 	poi_markers.add_child(marker)
 	poi_marker_instances[poi_id] = marker
 
+func _on_tile_cache_updated(cache_size: int):
+	print("Tile cache updated: ", cache_size, " tiles")
+
+func _on_entity_visibility_changed(visible_count: int):
+	print("Visible entities: ", visible_count)
+	_update_entity_visibility()
+
+func _update_entity_visibility():
+	# Aggiorna visibilità creature basata su PerformanceManager
+	for creature_id in creature_marker_instances:
+		var should_show = PerformanceManager.is_creature_visible(creature_id)
+		creature_marker_instances[creature_id].visible = should_show
+	
+	# Aggiorna visibilità POI basata su PerformanceManager
+	for poi_id in poi_marker_instances:
+		var should_show = PerformanceManager.is_poi_visible(poi_id)
+		poi_marker_instances[poi_id].visible = should_show
+
 func _display_tile(x: int, y: int, zoom: int):
+	var tile_key = str(x) + "_" + str(y) + "_" + str(zoom)
+	
+	# Controlla cache prima di scaricare
+	var cached_texture = PerformanceManager.get_cached_tile(tile_key)
+	if cached_texture != null:
+		_use_tile_texture(tile_key, cached_texture)
+		return
+	
 	var texture = MapManager.get_tile_texture(x, y, zoom)
 	if texture == null:
 		return
 	
-	var tile_key = str(x) + "_" + str(y) + "_" + str(zoom)
+	# Salva in cache
+	PerformanceManager.cache_tile(tile_key, texture)
 	
+	_use_tile_texture(tile_key, texture)
+
+func _use_tile_texture(tile_key: String, texture: Texture2D):
 	# Se lo sprite esiste già, aggiorna texture
 	if tile_sprites.has(tile_key):
 		tile_sprites[tile_key].texture = texture
-		return
-	
-	# Crea nuovo sprite per la tile
-	var sprite = Sprite2D.new()
-	sprite.texture = texture
-	sprite.position = _tile_to_world_position(x, y, zoom)
-	osm_tilemap.add_child(sprite)
-	tile_sprites[tile_key] = sprite
+	else:
+		# Crea nuovo sprite
+		var sprite = Sprite2D.new()
+		sprite.texture = texture
+		sprite.position = Vector2(256, 256)
+		sprite.centered = false
+		
+		var tile_node = Node2D.new()
+		tile_node.name = "Tile_" + tile_key
+		tile_node.add_child(sprite)
+		osm_tilemap.add_child(tile_node)
+		tile_sprites[tile_key] = sprite
+		
+		# Limita numero di tile caricati
+		_limit_loaded_tiles()
+
+func _limit_loaded_tiles():
+	var max_tiles = 25
+	if tile_sprites.size() > max_tiles:
+		# Rimuovi tile più vecchi
+		var tiles_to_remove = tile_sprites.size() - max_tiles
+		var keys = tile_sprites.keys()
+		
+		for i in range(tiles_to_remove):
+			var tile_key = keys[i]
+			var sprite = tile_sprites[tile_key]
+			sprite.get_parent().queue_free()
+			tile_sprites.erase(tile_key)
+		
+		print("Removed ", tiles_to_remove, " tiles to limit memory")
 
 func _tile_to_world_position(x: int, y: int, zoom: int) -> Vector2:
 	var tile_size = 256.0  # Dimensione standard tile OSM

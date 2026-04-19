@@ -33,6 +33,7 @@ PlayerLocationManager="*res://scripts/player/player_location_manager.gd"
 GeofenceManager="*res://scripts/geofence/geofence_manager.gd"
 CreatureSpawnManager="*res://scripts/creature/creature_spawn_manager.gd"
 POIManager="*res://scripts/poi/poi_manager.gd"
+PerformanceManager="*res://scripts/performance/performance_manager.gd"
 
 [input]
 
