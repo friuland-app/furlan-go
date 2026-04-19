@@ -7,7 +7,9 @@ extends Node2D
 @onready var zone_visualizer = $ZoneVisualizer
 @onready var creature_markers = $CreatureMarkers
 @onready var poi_markers = $POIMarkers
+@onready var exploration_ring = $ExplorationRing
 @onready var info_label = $UI/InfoLabel
+@onready var map_ui = $UI/MapUI
 
 var current_latitude: float = 46.0780  # Cividale del Friuli
 var current_longitude: float = 13.2330
@@ -19,6 +21,10 @@ var poi_marker_instances: Dictionary = {}  # poi_id → marker node
 func _ready():
 	print("Map scene initialized")
 	info_label.text = "Furlan Go - Cividale del Friuli\nLat: " + str(current_latitude) + " Lon: " + str(current_longitude)
+	
+	# Connetti MapUIController alla camera
+	if map_ui:
+		map_ui.set_map_camera(camera_2d)
 	
 	# Connetti segnali MapManager
 	MapManager.map_loaded.connect(_on_map_loaded)

@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bqk3x8jy4m5k7"]
+[gd_scene load_steps=8 format=3 uid="uid://bqk3x8jy4m5k7"]
 
 [ext_resource type="Script" path="res://scripts/map/map_scene.gd" id="1_map"]
 [ext_resource type="PackedScene" uid="uid://bqk3x8jy4m5k8" path="res://scenes/player/player_avatar.tscn" id="2_avatar"]
 [ext_resource type="Script" path="res://scripts/geofence/zone_visualizer.gd" id="3_zone"]
 [ext_resource type="PackedScene" uid="uid://bqk3x8jy4m5k9" path="res://scenes/creature/creature_marker.tscn" id="4_creature"]
 [ext_resource type="PackedScene" uid="uid://bqk3x8jy4m5k10" path="res://scenes/poi/poi_marker.tscn" id="5_poi"]
+[ext_resource type="Script" path="res://scripts/map/map_ui_controller.gd" id="6_ui"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(1280, 720)
@@ -36,7 +37,46 @@ shape = SubResource("RectangleShape2D_1")
 
 [node name="POIMarkers" type="Node2D" parent="."]
 
+[node name="ExplorationRing" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-50, -50, 50, -50, 50, 50, -50, 50)
+color = Color(0, 0.5, 1, 0.2)
+z_index = -3
+
 [node name="UI" type="CanvasLayer" parent="."]
+
+[node name="MapUI" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+script = ExtResource("6_ui")
+
+[node name="ZoomControls" type="VBoxContainer" parent="UI/MapUI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+offset_left = -120.0
+
+[node name="ZoomInButton" type="Button" parent="UI/MapUI/ZoomControls"]
+layout_mode = 2
+text = "+"
+
+[node name="ZoomOutButton" type="Button" parent="UI/MapUI/ZoomControls"]
+layout_mode = 2
+text = "-"
+
+[node name="CenterButton" type="Button" parent="UI/MapUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+text = "Centra"
+
+[node name="Compass" type="TextureRect" parent="UI/MapUI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+offset_left = 20.0
+offset_top = -120.0
+offset_right = 120.0
+offset_bottom = -20.0
 
 [node name="InfoLabel" type="Label" parent="UI"]
 offset_left = 10.0
