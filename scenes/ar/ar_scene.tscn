@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqk3x8jy4m5k12"]
+[gd_scene load_steps=4 format=3 uid="uid://bqk3x8jy4m5k12"]
 
 [ext_resource type="Script" path="res://scripts/ar/ar_session_manager.gd" id="1_ar"]
 [ext_resource type="Script" path="res://scripts/ar/surface_detection_manager.gd" id="2_surface"]
+[ext_resource type="Script" path="res://scripts/ar/ar_creature_spawner.gd" id="3_spawner"]
 
 [node name="ARScene" type="Node3D"]
 script = ExtResource("1_ar")
@@ -12,6 +13,9 @@ script = ExtResource("1_ar")
 
 [node name="SurfaceDetectionManager" type="Node3D" parent="."]
 script = ExtResource("2_surface")
+
+[node name="ARCreatureSpawner" type="Node3D" parent="."]
+script = ExtResource("3_spawner")
 
 [node name="ARUI" type="CanvasLayer" parent="."]
 
