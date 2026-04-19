@@ -1,0 +1,88 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqk3x8jy4m5k11"]
+
+[ext_resource type="Script" path="res://scripts/loading/loading_screen_controller.gd" id="1_loading"]
+
+[sub_resource type="Gradient" id="Gradient_1"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(0, 1, 0, 1, 1, 1, 0, 1)
+
+[node name="LoadingScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_loading")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.3, 0.5, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+theme_override_colors/font_color = Color(1, 0.8, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.5, 0.3, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+text = "Friuland"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LoadingBar" type="Panel" parent="VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(400, 20)
+
+[node name="LoadingBarFill" type="ColorRect" parent="VBoxContainer/LoadingBar"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -400.0
+scale = Vector2(0, 1)
+color = Color(0.5, 1, 0.2, 1)
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Caricamento..."
+horizontal_alignment = 1
+
+[node name="Spirits" type="Node2D" parent="."]
+position = Vector2(1100, 600)
+
+[node name="Spirit1" type="Sprite2D" parent="Spirits"]
+position = Vector2(0, 0)
+modulate = Color(0.6, 0.8, 1, 0.6)
+scale = Vector2(0.2, 0.2)
+
+[node name="Spirit2" type="Sprite2D" parent="Spirits"]
+position = Vector2(30, -20)
+modulate = Color(0.6, 0.8, 1, 0.5)
+scale = Vector2(0.15, 0.15)
+
+[node name="Spirit3" type="Sprite2D" parent="Spirits"]
+position = Vector2(50, 10)
+modulate = Color(0.6, 0.8, 1, 0.4)
+scale = Vector2(0.18, 0.18)
