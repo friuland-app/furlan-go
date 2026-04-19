@@ -5,12 +5,14 @@ extends Node2D
 @onready var player_marker = $PlayerMarker
 @onready var player_avatar = $PlayerAvatar
 @onready var zone_visualizer = $ZoneVisualizer
+@onready var creature_markers = $CreatureMarkers
 @onready var info_label = $UI/InfoLabel
 
 var current_latitude: float = 46.0780  # Cividale del Friuli
 var current_longitude: float = 13.2330
 var current_zoom: int = 15
 var tile_sprites: Dictionary = {}  # Sprite2D per visualizzare tiles
+var creature_marker_instances: Dictionary = {}  # creature_id → marker node
 
 func _ready():
 	print("Map scene initialized")
@@ -29,6 +31,12 @@ func _ready():
 	GeofenceManager.zone_entered.connect(_on_zone_entered)
 	GeofenceManager.zone_exited.connect(_on_zone_exited)
 	GeofenceManager.zone_event_triggered.connect(_on_zone_event_triggered)
+	
+	# Connetti segnali CreatureSpawnManager
+	CreatureSpawnManager.creature_spawned.connect(_on_creature_spawned)
+	CreatureSpawnManager.creature_despawned.connect(_on_creature_despawned)
+	CreatureSpawnManager.creature_interactable.connect(_on_creature_interactable)
+	CreatureSpawnManager.creature_out_of_range.connect(_on_creature_out_of_range)
 	
 	# Avvia tracking posizione giocatore
 	PlayerLocationManager.start_tracking()
@@ -82,6 +90,53 @@ func _on_zone_exited(zone_id: String, zone_name: String):
 func _on_zone_event_triggered(zone_id: String, event_type: String):
 	print("Zone event triggered: ", event_type, " in zone: ", zone_id)
 	# TODO: Implementare logica specifica per eventi
+
+func _on_creature_spawned(creature_id: String, creature_data: Dictionary):
+	print("Creature spawned: ", creature_data.name)
+	_add_creature_marker(creature_id, creature_data)
+
+func _on_creature_despawned(creature_id: String):
+	print("Creature despawned: ", creature_id)
+	_remove_creature_marker(creature_id)
+
+func _on_creature_interactable(creature_id: String):
+	print("Creature became interactable: ", creature_id)
+	if creature_marker_instances.has(creature_id):
+		creature_marker_instances[creature_id].set_interactable(true)
+
+func _on_creature_out_of_range(creature_id: String):
+	print("Creature out of range: ", creature_id)
+	if creature_marker_instances.has(creature_id):
+		creature_marker_instances[creature_id].set_interactable(false)
+
+func _add_creature_marker(creature_id: String, creature_data: Dictionary):
+	var marker_scene = load("res://scenes/creature/creature_marker.tscn")
+	var marker = marker_scene.instantiate()
+	
+	marker.setup(creature_id, creature_data)
+	
+	# Posiziona marker sulla mappa
+	var map_position = _lat_lon_to_map_position(creature_data.latitude, creature_data.longitude)
+	marker.position = map_position
+	
+	creature_markers.add_child(marker)
+	creature_marker_instances[creature_id] = marker
+
+func _remove_creature_marker(creature_id: String):
+	if creature_marker_instances.has(creature_id):
+		var marker = creature_marker_instances[creature_id]
+		marker.queue_free()
+		creature_marker_instances.erase(creature_id)
+
+func _lat_lon_to_map_position(lat: float, lon: float) -> Vector2:
+	var center_lat = MapManager.center_latitude
+	var center_lon = MapManager.center_longitude
+	
+	var lat_offset = (lat - center_lat) * 111000.0
+	var lon_offset = (lon - center_lon) * 111000.0 * cos(deg_to_rad(center_lat))
+	
+	var map_scale = 1.0
+	return Vector2(640 + lat_offset * map_scale, 360 + lon_offset * map_scale)
 
 func _display_tile(x: int, y: int, zoom: int):
 	var texture = MapManager.get_tile_texture(x, y, zoom)

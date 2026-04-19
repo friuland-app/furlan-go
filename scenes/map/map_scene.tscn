@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqk3x8jy4m5k7"]
+[gd_scene load_steps=6 format=3 uid="uid://bqk3x8jy4m5k7"]
 
 [ext_resource type="Script" path="res://scripts/map/map_scene.gd" id="1_map"]
 [ext_resource type="PackedScene" uid="uid://bqk3x8jy4m5k8" path="res://scenes/player/player_avatar.tscn" id="2_avatar"]
 [ext_resource type="Script" path="res://scripts/geofence/zone_visualizer.gd" id="3_zone"]
+[ext_resource type="PackedScene" uid="uid://bqk3x8jy4m5k9" path="res://scenes/creature/creature_marker.tscn" id="4_creature"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(1280, 720)
@@ -29,6 +30,8 @@ scale = Vector2(0.1, 0.1)
 shape = SubResource("RectangleShape2D_1")
 
 [node name="PlayerAvatar" parent="." instance=ExtResource("2_avatar")]
+
+[node name="CreatureMarkers" type="Node2D" parent="."]
 
 [node name="UI" type="CanvasLayer" parent="."]
 

@@ -31,6 +31,7 @@ ARManager="*res://scripts/ar/ar_manager.gd"
 GPSManager="*res://scripts/gps/gps_manager.gd"
 PlayerLocationManager="*res://scripts/player/player_location_manager.gd"
 GeofenceManager="*res://scripts/geofence/geofence_manager.gd"
+CreatureSpawnManager="*res://scripts/creature/creature_spawn_manager.gd"
 
 [input]
 
