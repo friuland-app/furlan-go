@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bqk3x8jy4m5k12"]
+[gd_scene load_steps=3 format=3 uid="uid://bqk3x8jy4m5k12"]
 
 [ext_resource type="Script" path="res://scripts/ar/ar_session_manager.gd" id="1_ar"]
+[ext_resource type="Script" path="res://scripts/ar/surface_detection_manager.gd" id="2_surface"]
 
 [node name="ARScene" type="Node3D"]
 script = ExtResource("1_ar")
@@ -8,6 +9,9 @@ script = ExtResource("1_ar")
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+
+[node name="SurfaceDetectionManager" type="Node3D" parent="."]
+script = ExtResource("2_surface")
 
 [node name="ARUI" type="CanvasLayer" parent="."]
 
