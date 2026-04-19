@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bqk3x8jy4m5k12"]
+[gd_scene load_steps=8 format=3 uid="uid://bqk3x8jy4m5k12"]
 
 [ext_resource type="Script" path="res://scripts/ar/ar_session_manager.gd" id="1_ar"]
 [ext_resource type="Script" path="res://scripts/ar/surface_detection_manager.gd" id="2_surface"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/ar/ar_interaction_manager.gd" id="4_interaction"]
 [ext_resource type="Script" path="res://scripts/ar/ar_effects_manager.gd" id="5_effects"]
 [ext_resource type="Script" path="res://scripts/camera/camera_permission_manager.gd" id="6_camera"]
+[ext_resource type="Script" path="res://scripts/ar/ar_optimization_manager.gd" id="7_optimization"]
 
 [node name="ARScene" type="Node3D"]
 script = ExtResource("1_ar")
@@ -28,6 +29,9 @@ script = ExtResource("5_effects")
 
 [node name="CameraPermissionManager" type="Node" parent="."]
 script = ExtResource("6_camera")
+
+[node name="AROptimizationManager" type="Node" parent="."]
+script = ExtResource("7_optimization")
 
 [node name="ARUI" type="CanvasLayer" parent="."]
 
