@@ -99,8 +99,11 @@ config/version_name="0.1.0"
 config/use_custom_build=true
 
 graphics/opengl3/buffers/hdr=false
-graphics/opengl3/buffers/lazy=false
-graphics/opengl3/force_vertex_shading=false
+graphics/opengl3/buffers/xr=true
+shaders/enabled=true
+form_factor="0"
+anchor_detection_enabled=true
+plane_detection_enabled=true
 graphics/opengl3/ffx_fsr2_sharpness=0.5
 graphics/opengl3/ffx_fsr2_mode=0
 graphics/opengl3/tier3/roughness_limiter=0.0
