@@ -6,6 +6,7 @@ extends Node2D
 @onready var player_avatar = $PlayerAvatar
 @onready var zone_visualizer = $ZoneVisualizer
 @onready var creature_markers = $CreatureMarkers
+@onready var poi_markers = $POIMarkers
 @onready var info_label = $UI/InfoLabel
 
 var current_latitude: float = 46.0780  # Cividale del Friuli
@@ -13,6 +14,7 @@ var current_longitude: float = 13.2330
 var current_zoom: int = 15
 var tile_sprites: Dictionary = {}  # Sprite2D per visualizzare tiles
 var creature_marker_instances: Dictionary = {}  # creature_id → marker node
+var poi_marker_instances: Dictionary = {}  # poi_id → marker node
 
 func _ready():
 	print("Map scene initialized")
@@ -38,6 +40,13 @@ func _ready():
 	CreatureSpawnManager.creature_interactable.connect(_on_creature_interactable)
 	CreatureSpawnManager.creature_out_of_range.connect(_on_creature_out_of_range)
 	
+	# Connetti segnali POIManager
+	POIManager.poi_loaded.connect(_on_poi_loaded)
+	POIManager.poi_interactable.connect(_on_poi_interactable)
+	POIManager.poi_out_of_range.connect(_on_poi_out_of_range)
+	POIManager.poi_reward_claimed.connect(_on_poi_reward_claimed)
+	POIManager.poi_cooldown_complete.connect(_on_poi_cooldown_complete)
+	
 	# Avvia tracking posizione giocatore
 	PlayerLocationManager.start_tracking()
 	
@@ -50,6 +59,13 @@ func _ready():
 func _on_map_loaded():
 	print("Map loaded")
 	_center_camera_on_location()
+	_initialize_poi_markers()
+
+func _initialize_poi_markers():
+	var all_pois = POIManager.get_all_pois()
+	for poi_id in all_pois:
+		var poi_data = all_pois[poi_id]
+		_add_poi_marker(poi_id, poi_data)
 
 func _on_tile_loaded(x: int, y: int, zoom: int):
 	print("Tile loaded: ", x, ", ", y, ", zoom: ", zoom)
@@ -137,6 +153,46 @@ func _lat_lon_to_map_position(lat: float, lon: float) -> Vector2:
 	
 	var map_scale = 1.0
 	return Vector2(640 + lat_offset * map_scale, 360 + lon_offset * map_scale)
+
+func _on_poi_loaded(poi_id: String, poi_data: Dictionary):
+	print("POI loaded: ", poi_data.name)
+	_add_poi_marker(poi_id, poi_data)
+
+func _on_poi_interactable(poi_id: String):
+	print("POI became interactable: ", poi_id)
+	if poi_marker_instances.has(poi_id):
+		poi_marker_instances[poi_id].set_interactable(true)
+
+func _on_poi_out_of_range(poi_id: String):
+	print("POI out of range: ", poi_id)
+	if poi_marker_instances.has(poi_id):
+		poi_marker_instances[poi_id].set_interactable(false)
+
+func _on_poi_reward_claimed(poi_id: String, reward: Dictionary):
+	print("POI reward claimed: ", reward)
+	info_label.text = "Ricompensa: " + str(reward.type)
+	
+	if poi_marker_instances.has(poi_id):
+		var remaining = POIManager.get_poi_cooldown_remaining(poi_id)
+		poi_marker_instances[poi_id].set_on_cooldown(true, remaining)
+
+func _on_poi_cooldown_complete(poi_id: String):
+	print("POI cooldown complete: ", poi_id)
+	if poi_marker_instances.has(poi_id):
+		poi_marker_instances[poi_id].set_on_cooldown(false)
+
+func _add_poi_marker(poi_id: String, poi_data: Dictionary):
+	var marker_scene = load("res://scenes/poi/poi_marker.tscn")
+	var marker = marker_scene.instantiate()
+	
+	marker.setup(poi_id, poi_data)
+	
+	# Posiziona marker sulla mappa
+	var map_position = _lat_lon_to_map_position(poi_data.latitude, poi_data.longitude)
+	marker.position = map_position
+	
+	poi_markers.add_child(marker)
+	poi_marker_instances[poi_id] = marker
 
 func _display_tile(x: int, y: int, zoom: int):
 	var texture = MapManager.get_tile_texture(x, y, zoom)

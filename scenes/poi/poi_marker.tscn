@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://bqk3x8jy4m5k10"]
+
+[ext_resource type="Script" path="res://scripts/poi/poi_marker.gd" id="1_poi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 16.0
+
+[node name="POIMarker" type="Node2D"]
+script = ExtResource("1_poi")
+
+[node name="MarkerSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+
+[node name="CooldownIndicator" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-25, -25, 25, -25, 25, 25, -25, 25)
+color = Color(0.5, 0.5, 0.5, 0.5)
+z_index = -1
+
+[node name="InteractionRing" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
+color = Color(0, 1, 0, 0.3)
+z_index = -1
+
+[node name="POILabel" type="Label" parent="."]
+offset_left = -40.0
+offset_top = -35.0
+offset_right = 40.0
+offset_bottom = -15.0
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+text = "POI"
+
+[node name="CooldownLabel" type="Label" parent="."]
+offset_left = -20.0
+offset_top = 20.0
+offset_right = 20.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+text = "5:00"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_1")
