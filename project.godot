@@ -38,6 +38,7 @@ SceneTransitionManager="*res://scripts/scene/scene_transition_manager.gd"
 CaptureSystem="*res://scripts/capture/capture_system.gd"
 BattleSystem="*res://scripts/battle/battle_system.gd"
 CreatureProgressionSystem="*res://scripts/creature/creature_progression_system.gd"
+InventoryManager="*res://scripts/inventory/inventory_manager.gd"
 
 [input]
 
