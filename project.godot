@@ -41,6 +41,7 @@ CreatureProgressionSystem="*res://scripts/creature/creature_progression_system.g
 InventoryManager="*res://scripts/inventory/inventory_manager.gd"
 PlayerProgressionSystem="*res://scripts/player/player_progression_system.gd"
 QuestManager="*res://scripts/quest/quest_manager.gd"
+EnvironmentSystem="*res://scripts/environment/environment_system.gd"
 
 [input]
 
