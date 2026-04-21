@@ -1,0 +1,23 @@
+PLACEHOLDER: Creature Textures
+
+This folder will contain texture files for all creatures.
+Create the following textures for each creature:
+
+## Required Texture Maps
+- albedo.png - Base color (512x512 or 1024x1024)
+- normal.png - Normal map (same resolution as albedo)
+- roughness.png - Roughness map (same resolution as albedo)
+- metallic.png - Metallic map (optional, same resolution)
+
+## Texture Guidelines
+- Use PBR workflow
+- Keep textures power-of-2 resolution
+- Optimize file size (use compression)
+- Include UV layout reference
+
+## Creature-Specific Textures
+- Dragon: Scales, wings, eyes
+- Warrior: Armor, metal, cloth
+- Water Spirit: Ethereal, translucent
+- Devil Boss: Dark, glowing
+- River Monster: Aquatic, slimy

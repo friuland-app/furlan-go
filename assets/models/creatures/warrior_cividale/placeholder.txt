@@ -1,0 +1,19 @@
+PLACEHOLDER: Warrior of Cividale 3D Model
+
+This file is a placeholder for the actual 3D model.
+To create the model:
+1. Open Blender
+2. Create a warrior armor mesh (longobard style)
+3. Apply metallic PBR materials
+4. Create armature with bones for animation
+5. Add animations: idle, attack, capture, escape
+6. Export as .glb or .gltf format
+7. Place in this folder as warrior_cividale.glb
+
+Stats:
+- HP: 100
+- Attack: 70
+- Defense: 90
+- Speed: 40
+- Type: Earth
+- Rarity: Epic

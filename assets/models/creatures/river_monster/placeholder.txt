@@ -1,0 +1,19 @@
+PLACEHOLDER: River Monster 3D Model
+
+This file is a placeholder for the actual 3D model.
+To create the model:
+1. Open Blender
+2. Create a river monster creature mesh
+3. Apply aquatic PBR materials (green/blue)
+4. Create armature with bones for animation
+5. Add animations: idle, attack, capture, escape
+6. Export as .glb or .gltf format
+7. Place in this folder as river_monster.glb
+
+Stats:
+- HP: 60
+- Attack: 40
+- Defense: 30
+- Speed: 50
+- Type: Water
+- Rarity: Common

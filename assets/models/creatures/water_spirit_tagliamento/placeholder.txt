@@ -1,0 +1,19 @@
+PLACEHOLDER: Water Spirit of Tagliamento 3D Model
+
+This file is a placeholder for the actual 3D model.
+To create the model:
+1. Open Blender
+2. Create a water spirit ethereal mesh
+3. Apply translucent PBR materials (blue/teal)
+4. Create armature with bones for animation
+5. Add animations: idle, attack, capture, escape
+6. Export as .glb or .gltf format
+7. Place in this folder as water_spirit_tagliamento.glb
+
+Stats:
+- HP: 80
+- Attack: 50
+- Defense: 40
+- Speed: 70
+- Type: Water
+- Rarity: Rare

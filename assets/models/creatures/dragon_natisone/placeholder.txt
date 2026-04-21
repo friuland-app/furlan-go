@@ -1,0 +1,19 @@
+PLACEHOLDER: Dragon of Natisone 3D Model
+
+This file is a placeholder for the actual 3D model.
+To create the model:
+1. Open Blender
+2. Create a dragon creature mesh
+3. Apply PBR materials (scales, eyes, wings)
+4. Create armature with bones for animation
+5. Add animations: idle, attack, capture, escape
+6. Export as .glb or .gltf format
+7. Place in this folder as dragon_natisone.glb
+
+Stats:
+- HP: 150
+- Attack: 80
+- Defense: 70
+- Speed: 60
+- Type: Water
+- Rarity: Legendary

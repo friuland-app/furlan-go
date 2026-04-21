@@ -1,0 +1,19 @@
+PLACEHOLDER: Devil Boss 3D Model
+
+This file is a placeholder for the actual 3D model.
+To create the model:
+1. Open Blender
+2. Create a devil boss creature mesh
+3. Apply dark PBR materials (red/black)
+4. Create armature with bones for animation
+5. Add animations: idle, attack, capture, escape
+6. Export as .glb or .gltf format
+7. Place in this folder as devil_boss.glb
+
+Stats:
+- HP: 200
+- Attack: 100
+- Defense: 80
+- Speed: 50
+- Type: Legend
+- Rarity: Legendary
