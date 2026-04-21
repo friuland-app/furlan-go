@@ -1,0 +1,22 @@
+{
+  "game_formulas": {
+    "capture_chance": {"base": 0.3, "hp_bonus": 0.3, "trap_rare": 0.15, "trap_special": 0.3},
+    "damage": {"base": 10, "type_bonus": 10},
+    "xp_rewards": {"capture": 100, "battle_win": 50, "poi": 75, "mission": 200}
+  },
+  "progression": {
+    "player_levels": {"max": 40, "xp_per_level": 500},
+    "creature_levels": {"max": 50, "xp_per_level": 100, "evolution": [15, 30, 45]}
+  },
+  "spawn_rates": {
+    "rarity": {"common": 0.6, "rare": 0.25, "epic": 0.1, "legendary": 0.05}
+  },
+  "economy": {
+    "items": {"common_trap": {"cost": 50, "sell": 25}, "rare_trap": {"cost": 150, "sell": 75}},
+    "rewards": {"daily_quest": 200, "weekly_quest": 1000}
+  },
+  "playtesting": {
+    "sessions": ["alpha", "beta", "final"],
+    "feedback_cycle": "2 weeks"
+  }
+}
